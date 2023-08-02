@@ -33,7 +33,7 @@ CMD ["npm", "run", "dev"]
 ### backendフォルダのDockerfile
 backend > Dockerfile
 ```
-FROM ruby:latest
+FROM ruby:3.1.2
 
 WORKDIR /app
 
@@ -43,11 +43,27 @@ RUN gem install bundler
 
 RUN bundle install
 
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
 COPY . .
 
 CMD ["rails", "server", "-b", "0.0.0.0"]
 ```
+## entrypoint.shの作成
+次に、entrypoint.shを**backend直下**に用意します。<br><br>
+entrypoint.sh<br>
+```
+#!/bin/bash
+set -e
 
+# Remove a potentially pre-existing server.pid for Rails.
+rm -f /myapp/tmp/pids/server.pid
+
+# Then exec the container's main process (what's set as CMD in the Dockerfile).
+exec "$@"
+```
 ## docker-compose.ymlの作成
 次に、docker-compose.ymlを**sample-environment直下**に用意します。<br><br>
 docker-compose.yml<br>
@@ -75,6 +91,7 @@ services:
       - ./backend:/app # Railsアプリケーションのパスを指定
     depends_on:
       - mysql
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
 
   mysql:
     image: mysql:latest
@@ -83,19 +100,31 @@ services:
       MYSQL_DATABASE: database_name
       MYSQL_USER: username
       MYSQL_PASSWORD: password
-
 ```
 ## Dockerの実行
 順に以下をターミナルで実行します。<br>
 ` ~$ docker-compose build `<br>
 ` ~$ docker-compose up -d `<br><br>
 ```
-[+] Running 3/3
- ✔ Container dcteamf-a-mysql-1   Started                                                                                                      1.7s 
- ✔ Container dcteamf-a-rails-1   Started                                                                                                      1.5s 
- ✔ Container dcteamf-a-nextjs-1  Started  
+[+] Running 4/4
+ ✔ Network dcteamf-a_default     Created                                                                                                                                                                                         0.2s 
+ ✔ Container dcteamf-a-mysql-1   Started                                                                                                                                                                                         2.9s 
+ ✔ Container dcteamf-a-rails-1   Started                                                                                                                                                                                         4.1s 
+ ✔ Container dcteamf-a-nextjs-1  Started    
 ```
-上のような結果が出たらビルド成功です。<br>
+上のような結果が出たらビルド成功です。<br><br>
+
+※※<br>
+```
+------                                                                                                                                                                                                              
+ > [rails 5/6] RUN bundle install:
+1.260 Your Ruby version is 3.2.2, but your Gemfile specified 3.1.2
+------
+failed to solve: process "/bin/sh -c bundle install" did not complete successfully: exit code: 18
+```
+上記のようなエラーが出てしまったら、Gemfileの4行目を以下のように編集しましょう。<br>
+` ruby "3.2.2" `<br>
+そして、再度Dockerの実行を試してみましょう。
 
 ## Docker環境に入る
 ビルドができたら、次にDocker環境に入って実行をしていきます。<br>
@@ -117,7 +146,11 @@ services:
 - wait compiling...
 - event compiled client and server successfully in 280 ms (20 modules)
 ```
-上のような結果が出てきたらサーバー起動成功です。<br>
+上のような結果が出てきたらサーバー起動成功です。<br><br>
+確認として` localhost:3000 `にアクセスしてみましょう。<br>
+以下の図のようになれば成功です。<br>
+<img width="1440" alt="スクリーンショット 2023-08-02 13 13 40" src="https://github.com/NishimuraShiro/Next.js_Rails_MySQL_Docker-EnviromentBuilding/assets/73762800/1d50003b-5586-4c15-913a-81f6401b3f6c">
+
 ### Rails
 ` ~$ cd ../ ` <br>
 ` ~$ cd backend `<br>
@@ -125,3 +158,39 @@ services:
 ターミナルがこのようになったら仮想環境に入れた合図です。<br>
 ` root@72a63eea44a1:/app# `<br><br>
 次に以下のコードを叩くとNext.jsのサーバーが起動されます。<br>
+` root@72a63eea44a1:/app# rails s `<br><br>
+```
+=> Booting Puma
+=> Rails 7.0.6 application starting in development 
+=> Run `bin/rails server --help` for more startup options
+A server is already running. Check /app/tmp/pids/server.pid.
+Exiting
+```
+上のような結果が出てきたらサーバー起動成功です。一見うまく行っていないかと思いますが、サーバーを起動してみると確認できます。<br><br>
+確認として` localhost:3001 `にアクセスしてみましょう。<br>
+以下の図のようになれば成功です。<br>
+<img width="1440" alt="スクリーンショット 2023-08-02 13 14 02" src="https://github.com/NishimuraShiro/Next.js_Rails_MySQL_Docker-EnviromentBuilding/assets/73762800/47da066a-0c12-4c14-99f3-12b6cd09f21f">
+
+### MySQL
+` ~$ docker-compose exec mysql bash `<br><br>
+ターミナルがこのようになったら仮想環境に入れた合図です。<br>
+` bash-4.4# `<br><br>
+次に以下のコードを叩くとNext.jsのサーバーが起動されます。<br>
+` bash-4.4# mysql -u root -p `<br>
+` Enter password: root `<br><br>
+```
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+```
+上のような結果が出ればMySQLにログイン成功です。
