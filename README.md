@@ -1,5 +1,11 @@
 # Next.js Rails MySQL Dockerを使った環境構築
 ※Next.js Rails MySQL Docker がインストール済みが条件です。<br>
+## バージョン確認
+- Next.js： @13.4.12
+- Ruby： @3.1.2
+- Rails： @7.0.6
+- MySQL： @8.0.32
+- Docker： @24.0.2
 
 ## 構築ディレクトリの作成
 ``` ~$ mkdir sample-environment ```<br>
