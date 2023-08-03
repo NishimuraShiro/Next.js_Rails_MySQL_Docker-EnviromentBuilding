@@ -107,6 +107,8 @@ services:
       MYSQL_USER: username
       MYSQL_PASSWORD: password
 ```
+## もし、backendフォルダ直下にGemfile.lockがなかったら
+中身が空の`Gemfile.lock`ファイルをbackendフォルダ直下に作成しましょう。
 ## Dockerの実行
 順に以下をターミナルで実行します。<br>
 ` ~$ docker-compose build `<br>
