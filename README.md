@@ -139,23 +139,11 @@ failed to solve: process "/bin/sh -c bundle install" did not complete successful
 ### Next.js
 ` ~$ cd frontend `<br>
 ` ~$ docker-compose exec nextjs bash `<br><br>
-ターミナルがこのようになったら仮想環境に入れた合図です。<br>
+ターミナルがこのようになったら仮想環境に入れてアプリケーションが実行されてサーバーが起動された合図です。<br>
 ` root@5b5f5587cf95:/app# `<br><br>
 次に以下のコードを叩くとNext.jsのサーバーが起動されます。<br>
 ` root@5b5f5587cf95:/app# npm run dev `<br><br>
-
-```
-> project-frontend@0.1.0 dev
-> next dev
-
-- warn Port 3000 is in use, trying 3001 instead.
-- ready started server on 0.0.0.0:3001, url: http://localhost:3001
-- event compiled client and server successfully in 265 ms (20 modules)
-- wait compiling...
-- event compiled client and server successfully in 280 ms (20 modules)
-```
-上のような結果が出てきたらサーバー起動成功です。<br><br>
-確認として` localhost:3000 `にアクセスしてみましょう。<br>
+サーバー起動の確認として` localhost:3000 `にアクセスしてみましょう。<br>
 以下の図のようになれば成功です。<br>
 <img width="1440" alt="スクリーンショット 2023-08-02 13 13 40" src="https://github.com/NishimuraShiro/Next.js_Rails_MySQL_Docker-EnviromentBuilding/assets/73762800/1d50003b-5586-4c15-913a-81f6401b3f6c">
 
@@ -163,19 +151,11 @@ failed to solve: process "/bin/sh -c bundle install" did not complete successful
 ` ~$ cd ../ ` <br>
 ` ~$ cd backend `<br>
 ` ~$ docker-compose exec rails bash `<br><br>
-ターミナルがこのようになったら仮想環境に入れた合図です。<br>
+ターミナルがこのようになったら仮想環境に入れてアプリケーション実行ができてサーバーが起動された合図です。<br>
 ` root@72a63eea44a1:/app# `<br><br>
 次に以下のコードを叩くとNext.jsのサーバーが起動されます。<br>
 ` root@72a63eea44a1:/app# rails s `<br><br>
-```
-=> Booting Puma
-=> Rails 7.0.6 application starting in development 
-=> Run `bin/rails server --help` for more startup options
-A server is already running. Check /app/tmp/pids/server.pid.
-Exiting
-```
-上のような結果が出てきたらサーバー起動成功です。一見うまく行っていないかと思いますが、サーバーを起動してみると確認できます。<br><br>
-確認として` localhost:3001 `にアクセスしてみましょう。<br>
+サーバー起動の確認として` localhost:3001 `にアクセスしてみましょう。<br>
 以下の図のようになれば成功です。<br>
 <img width="1440" alt="スクリーンショット 2023-08-02 13 14 02" src="https://github.com/NishimuraShiro/Next.js_Rails_MySQL_Docker-EnviromentBuilding/assets/73762800/47da066a-0c12-4c14-99f3-12b6cd09f21f">
 
