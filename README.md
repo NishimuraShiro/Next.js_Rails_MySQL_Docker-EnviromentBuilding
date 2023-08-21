@@ -2,7 +2,7 @@
 ※Next.js Rails MySQL Docker がインストール済みが条件です。<br>
 ## バージョン確認
 - Next.js： @13.4.12
-- Ruby： @3.1.2
+- Ruby： @3.2.2
 - Rails： @7.0.6
 - MySQL： @8.0.32
 - Docker： @24.0.2
@@ -39,7 +39,7 @@ CMD ["npm", "run", "dev"]
 ### backendフォルダのDockerfile
 backend > Dockerfile
 ```
-FROM ruby:3.1.2
+FROM ruby:3.2.2
 
 WORKDIR /app
 
