@@ -141,11 +141,11 @@ failed to solve: process "/bin/sh -c bundle install" did not complete successful
 ` ~$ docker-compose exec nextjs bash `<br><br>
 ターミナルがこのようになったら仮想環境に入れてアプリケーションが実行されてサーバーが起動された合図です。<br>
 ` root@5b5f5587cf95:/app# `<br><br>
-次に以下のコードを叩くとNext.jsのサーバーが起動されます。<br>
-` root@5b5f5587cf95:/app# npm run dev `<br><br>
 サーバー起動の確認として` localhost:3000 `にアクセスしてみましょう。<br>
 以下の図のようになれば成功です。<br>
 <img width="1440" alt="スクリーンショット 2023-08-02 13 13 40" src="https://github.com/NishimuraShiro/Next.js_Rails_MySQL_Docker-EnviromentBuilding/assets/73762800/1d50003b-5586-4c15-913a-81f6401b3f6c">
+Next.jsのサーバーを再起動したいときは以下のコマンドを叩きます。<br>
+` root@5b5f5587cf95:/app# npm run dev `<br><br>
 
 ### Rails
 ` ~$ cd ../ ` <br>
@@ -153,12 +153,11 @@ failed to solve: process "/bin/sh -c bundle install" did not complete successful
 ` ~$ docker-compose exec rails bash `<br><br>
 ターミナルがこのようになったら仮想環境に入れてアプリケーション実行ができてサーバーが起動された合図です。<br>
 ` root@72a63eea44a1:/app# `<br><br>
-次に以下のコードを叩くとNext.jsのサーバーが起動されます。<br>
-` root@72a63eea44a1:/app# rails s `<br><br>
 サーバー起動の確認として` localhost:3001 `にアクセスしてみましょう。<br>
 以下の図のようになれば成功です。<br>
 <img width="1440" alt="スクリーンショット 2023-08-02 13 14 02" src="https://github.com/NishimuraShiro/Next.js_Rails_MySQL_Docker-EnviromentBuilding/assets/73762800/47da066a-0c12-4c14-99f3-12b6cd09f21f">
-
+railsのサーバーを再起動したいときは以下のコマンドを叩きます<br>
+` root@72a63eea44a1:/app# rails s `<br><br>
 ### MySQL
 ` ~$ docker-compose exec mysql bash `<br><br>
 ターミナルがこのようになったら仮想環境に入れた合図です。<br>
